@@ -62,7 +62,7 @@ function About() {
            <strong>Please answer honestly as possible. There are no Correct or Wrong Answers</strong>
          </li>
        </ul>
-       <Link to="/assessment">
+       <Link to="/Questions">
          <Buttons text="Begin Assessment" />
        </Link>
      </div>
