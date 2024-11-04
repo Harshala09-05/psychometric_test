@@ -57,7 +57,7 @@ export default function NavBar() {
             About Us
           </Link>
           <Link
-            to="/contact"
+            to="/submit"
             className="text-black font-extrabold text-lg  hover:text-gray-600"
           >
             Contact Us

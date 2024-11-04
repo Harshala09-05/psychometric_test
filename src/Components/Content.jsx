@@ -7,7 +7,7 @@ function Content() {
   const navigate = useNavigate();
   const location = useLocation();
   const handleTakeTestClick = () => {
-    navigate('/About'); // Navigate to About page
+    navigate('/about'); // Navigate to About page
   };
 
   return (
@@ -23,7 +23,7 @@ function Content() {
           <p className="text-black mb-6 text-xl">
             Uncover your ideal career path & Personality Trait with our psychometric tests.
           </p>
-          <Link to="/About " className='text-lg'>
+          <Link to="/about " className='text-lg'>
             <Buttons text="Take the Test" />
           </Link>
         </div>
@@ -31,8 +31,8 @@ function Content() {
         {location.pathname.includes("/thankyou") && (
           
                 <div className="lg:w-3/5  lg:text-left py-32 px-4 lg:mb-0 flex flex-col ">
-          <h1 className="text-3xl font-bold text-gray-800 ">
-            Thankyou!!!
+          <h1 className="text-3xl font-bold text-black-800 ">
+          Thank You for taking test!
           </h1>
         </div>
         )}
