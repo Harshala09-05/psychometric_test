@@ -42,7 +42,7 @@ function About() {
 //   </div>
 <div>
     
-    <div className="lg:w-full bg-yellow-300 lg:text-left mb-6 lg:mb-0 flex flex-col p-8">
+    <div className="lg:w-full  lg:text-left mb-6 lg:mb-0 flex flex-col p-10 mt-4">
         <h1 className="text-3xl font-bold text-gray-800 mb-12">
           About the SWOT Test
         </h1>
@@ -54,7 +54,7 @@ function About() {
         </p>
     </div>
     <div className='flex max-w-full mx-auto justify-between '>
-        <div className='bg-pink-400 ml-10  lg:w-3/5 flex flex-col items-start'>
+        <div className=' ml-10  lg:w-3/5 flex flex-col items-start p-2'>
         <ul className="text-left list-disc   text-gray-700 mb-6 space-y-3">
          <li>This Questionnaire contains 19 Questions</li>
          <li>You will need approximately 15 Minutes to complete</li>
