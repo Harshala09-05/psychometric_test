@@ -58,7 +58,6 @@ function Navbar() {
           </button>
         </div>
       </div>
-
       {/* Drawer menu for mobile */}
       <div
         className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform ${
@@ -78,20 +77,34 @@ function Navbar() {
           >
             Home
           </Link>
-          <Link
-            to="https://aaraconsultancy.com/about-us/"
-            className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
-            onClick={() => setIsOpen(false)}
-          >
-            About Us
-          </Link>
-          <Link
-            to="https://aaraconsultancy.com/contact-us/"
-            className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
-            onClick={() => setIsOpen(false)}
-          >
-            Contact Us
-          </Link>
+          {responses.length >= 19 || responses.length === 0 ? (
+            <a
+              href="https://aaraconsultancy.com/about-us/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+            >
+              About Us
+            </a>
+          ) : (
+            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+              About Us
+            </Link>
+          )}
+          {responses.length >= 19 || responses.length === 0 ? (
+            <a
+              href="https://aaraconsultancy.com/contact-us/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+            >
+              Contact Us
+            </a>
+          ) : (
+            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+              Contact Us
+            </Link>
+          )}
         </div>
       </div>
 
