@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import Routers from "./Router/Routers";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   useEffect(() => {
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <Toaster position="top-center" reverseOrder={false} />
       <Routers />
     </div>
   );

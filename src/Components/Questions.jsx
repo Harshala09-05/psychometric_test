@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useQuiz } from "../context/QuizContext";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const questions = [
   {
@@ -175,6 +177,7 @@ const questions = [
 ];
 
 function Questions() {
+  const navigate = useNavigate();
   // Load saved responses from localStorage only once
   const { responses, handleOptionChange } = useQuiz();
 
@@ -193,21 +196,20 @@ function Questions() {
     }
   };
 
-  const handleSubmit = () => {
-    if (Object.keys(responses).length === questions.length) {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        alert("All questions answered. Submitting...");
-        setIsSubmitting(false);
-        // Clear responses from context or handle submission logic
-      }, 2000);
+  const handleSubmit = async () => {
+    if (responses.length === questions.length) {
+      navigate("/submit");
     } else {
-      alert("Please answer all questions before submitting.");
+      // alert("Please answer all questions before submitting.");
+      toast.error("Please answer all questions.");
     }
   };
 
   const currentQuestion = questions[currentQuestionIndex];
-
+  console.log(JSON.stringify(responses));
+  const selectedOption = responses.find(
+    (response) => response.question_id === currentQuestion.id
+  )?.selected_option;
   return (
     <div className="p-4">
       <div className="flex justify-end items-center mb-4 gap-10">
@@ -215,8 +217,7 @@ function Questions() {
           Questions Displayed: {currentQuestionIndex + 1} of {questions.length}
         </h2>
         <p>
-          Questions Answered: {Object.keys(responses).length} /{" "}
-          {questions.length}
+          Questions Answered: {responses.length} / {questions.length}
         </p>
       </div>
 
@@ -236,10 +237,13 @@ function Questions() {
                 <input
                   type="radio"
                   name={`question-${currentQuestion.id}`}
-                  value={option}
-                  checked={responses[currentQuestion.id] === option}
+                  value={index === 0 ? "yes" : "no"}
+                  checked={selectedOption === (index === 0 ? "yes" : "no")}
                   onChange={() =>
-                    handleOptionChange(currentQuestion.id, option)
+                    handleOptionChange(
+                      currentQuestion.id,
+                      index === 0 ? "yes" : "no"
+                    )
                   }
                   className="mt-1"
                 />
@@ -264,7 +268,7 @@ function Questions() {
               Next
             </button>
           ) : isSubmitting ? (
-            <div className="flex items-center justify-center mt-20 flex mt-20 px-4 py-3 text-xl bg-gray-800 text-white font-medium rounded-md hover:bg-gray-900">
+            <div className=" items-center justify-center  flex mt-20 px-4 py-3 text-xl bg-gray-800 text-white font-medium rounded-md hover:bg-gray-900">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
               Submit
             </div>

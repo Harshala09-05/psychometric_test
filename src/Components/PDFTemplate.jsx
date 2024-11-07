@@ -12,13 +12,13 @@ import counselingImage from "../assets/pdf_images/counselingImage.png";
 import { Link } from "react-router-dom";
 import {
   IconWorld,
-  IconMail,
   IconPhoneFilled,
   IconMailFilled,
 } from "@tabler/icons-react";
 
+import { FaMapMarkerAlt } from "react-icons/fa";
+
 const PDFTemplate = ({ refArray }) => {
-  const [showPDF, setShowPDF] = useState(false);
   const userName = "Sachin Kaythamwar";
   const testDate = new Date().toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -162,34 +162,6 @@ const PDFTemplate = ({ refArray }) => {
     },
   ];
 
-  const downloadPDF = async () => {
-    setShowPDF(true); // Temporarily render the PDFTemplate
-
-    // Wait a moment for the component to render in the portal
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-    });
-    for (let i = 0; i < componentRefs.current.length; i++) {
-      const componentRef = componentRefs.current[i];
-      const canvas = await html2canvas(componentRef.current, { scale: 2 });
-      const imageData = canvas.toDataURL("image/png");
-      pdf.addImage(imageData, "PNG", 0, 0, 210, 297);
-
-      if (i < componentRefs.current.length - 1) {
-        pdf.addPage();
-      }
-    }
-
-    pdf.save("SWOT_Test_Report.pdf");
-
-    // Clean up by hiding the portal after generation
-    setShowPDF(false);
-  };
-
   const chunkCareerData = (data, size) => {
     const chunks = [];
     for (let i = 0; i < data.length; i += size) {
@@ -198,8 +170,6 @@ const PDFTemplate = ({ refArray }) => {
     return chunks;
   };
   const careerDataChunks = chunkCareerData(careerData, 3);
-
-  const componentRefs = useRef([]); // Dynamic refs array
 
   // Function to generate a ref and push to refs array for each section
   const getComponentRef = (index) => {
@@ -212,11 +182,11 @@ const PDFTemplate = ({ refArray }) => {
     <>
       <div
         className="flex flex-wrap m-0 p-0 font-custom"
-        // style={{
-        //   position: "absolute",
-        //   top: "-10000px", // Positions the component off-screen
-        //   left: "-10000px",
-        // }}
+        style={{
+          position: "absolute",
+          top: "-10000px", // Positions the component off-screen
+          left: "-10000px",
+        }}
       >
         {/* Page 1 */}
         <div
@@ -547,9 +517,12 @@ const PDFTemplate = ({ refArray }) => {
             {/* Address Section */}
             <div className="text-left mb-6">
               <div className="flex items-center mb-4">
-                <span className="text-red-500 mr-2">📍 </span>
+                {/* <span className="text-red-500 mr-2">📍 </span> */}
+                <div className="mx-4">
+                  <FaMapMarkerAlt color="red" size={20} />
+                </div>
                 <div>
-                  <p className="font-semibold">Vidyavihar:</p>
+                  <span className="font-semibold">Vidyavihar:</span>
                   <p>
                     608, 6th Floor, Surya House, Road Number 7, opposite R.N
                     Gandhi High School, near Vidyavihar station (east), Rajawadi
@@ -558,9 +531,12 @@ const PDFTemplate = ({ refArray }) => {
                 </div>
               </div>
               <div className="flex items-center mb-10">
-                <span className="text-red-500 mr-2">📍</span>
+                {/* <span className="text-red-500 mr-2">📍</span> */}
+                <div className="mx-4">
+                  <FaMapMarkerAlt color="red" size={20} />
+                </div>
                 <div>
-                  <p className="font-semibold">Andheri:</p>
+                  <span className="font-semibold">Andheri:</span>
                   <p>
                     DN Nagar Metro Station, 1308 Lotus Link Square, Besides, JP
                     Rd, D.N.Nagar, Andheri West, Mumbai, Maharashtra 400053
@@ -590,13 +566,6 @@ const PDFTemplate = ({ refArray }) => {
           </div>
         </div>
       </div>
-      {/* Download Button */}
-      <button
-        onClick={downloadPDF}
-        className="w-full mt-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Download as PDF (A4)
-      </button>
     </>
   );
 };

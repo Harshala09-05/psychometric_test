@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import logo from "../assets/Aara_logo.png";
+import { useQuiz } from "../context/QuizContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { responses } = useQuiz();
+  const navigate = useNavigate();
   return (
     <nav>
       <div className="bg-white flex justify-between items-center p-4">
@@ -19,18 +21,34 @@ function Navbar() {
           >
             Home
           </Link>
-          <Link
-            to="/about"
-            className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
-          >
-            About Us
-          </Link>
-          <Link
-            to="/submit"
-            className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
-          >
-            Contact Us
-          </Link>
+          {responses.length >= 19 || responses.length === 0 ? (
+            <a
+              href="https://aaraconsultancy.com/about-us/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+            >
+              About Us
+            </a>
+          ) : (
+            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+              About Us
+            </Link>
+          )}
+          {responses.length >= 19 || responses.length === 0 ? (
+            <a
+              href="https://aaraconsultancy.com/contact-us/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+            >
+              Contact Us
+            </a>
+          ) : (
+            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+              Contact Us
+            </Link>
+          )}
         </div>
 
         {/* Mobile menu button */}
@@ -61,14 +79,14 @@ function Navbar() {
             Home
           </Link>
           <Link
-            to="/about"
+            to="https://aaraconsultancy.com/about-us/"
             className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
             onClick={() => setIsOpen(false)}
           >
             About Us
           </Link>
           <Link
-            to="/submit"
+            to="https://aaraconsultancy.com/contact-us/"
             className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
             onClick={() => setIsOpen(false)}
           >
