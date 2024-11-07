@@ -521,13 +521,13 @@ const PDFTemplate = ({ refArray }) => {
                 <div className="mx-4">
                   <FaMapMarkerAlt color="red" size={20} />
                 </div>
-                <div>
-                  <span className="font-semibold">Vidyavihar:</span>
+                <div className="min-h-[72px]">
+                  {/* <span className="font-semibold">Vidyavihar:</span>
                   <p>
                     608, 6th Floor, Surya House, Road Number 7, opposite R.N
                     Gandhi High School, near Vidyavihar station (east), Rajawadi
                     Colony, Mumbai, Maharashtra 400077
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="flex items-center mb-10">
@@ -535,12 +535,12 @@ const PDFTemplate = ({ refArray }) => {
                 <div className="mx-4">
                   <FaMapMarkerAlt color="red" size={20} />
                 </div>
-                <div>
-                  <span className="font-semibold">Andheri:</span>
+                <div className="min-h-[72px]">
+                  {/* <span className="font-semibold">Andheri:</span>
                   <p>
                     DN Nagar Metro Station, 1308 Lotus Link Square, Besides, JP
                     Rd, D.N.Nagar, Andheri West, Mumbai, Maharashtra 400053
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useTable } from "react-table";
 
 function Table() {
+  const [password, setPassword] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const columns = React.useMemo(
     () => [
       { Header: "Name", accessor: "name" },
@@ -42,6 +46,15 @@ function Table() {
     ],
     []
   );
+
+  const handlePasswordSubmit = () => {
+    if (password === "Admin@123") {
+      // Replace 'yourpassword' with your actual password
+      setIsAuthorized(true);
+    } else {
+      toast.error("Incorrect Password");
+    }
+  };
 
   // Sample data (replace with actual data)
   const data = React.useMemo(
@@ -90,45 +103,69 @@ function Table() {
 
   return (
     <div className="p-4 overflow-x-auto">
-      <table
-        {...getTableProps()}
-        className="w-full text-left border  border-black"
-      >
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              className="bg-black  text-white"
-            >
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                  className="p-2 border border-black"
-                >
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()} className="border border-black">
-                {row.cells.map((cell) => (
-                  <td
-                    {...cell.getCellProps()}
+      {!isAuthorized ? (
+        <div>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+            className="p-2 border border-gray-400"
+          />
+          <button
+            onClick={() => setShowPassword(!showPassword)}
+            className="ml-2 p-2 bg-gray-300 text-black"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+          <button
+            onClick={handlePasswordSubmit}
+            className="ml-2 p-2 bg-blue-500 text-white"
+          >
+            Submit
+          </button>
+        </div>
+      ) : (
+        <table
+          {...getTableProps()}
+          className="w-full text-left border  border-black"
+        >
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr
+                {...headerGroup.getHeaderGroupProps()}
+                className="bg-black  text-white"
+              >
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps()}
                     className="p-2 border border-black"
                   >
-                    {cell.render("Cell")}
-                  </td>
+                    {column.render("Header")}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()} className="border border-black">
+                  {row.cells.map((cell) => (
+                    <td
+                      {...cell.getCellProps()}
+                      className="p-2 border border-black"
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

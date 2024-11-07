@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
 import PDFTemplate from "./PDFTemplate";
@@ -15,7 +15,7 @@ function SubmitForm() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    altPhone: "",
+    alt_phone: "",
     email: "",
   });
   const [errors, setErrors] = useState({});
@@ -43,11 +43,11 @@ function SubmitForm() {
     }
 
     // Alternate phone validation (optional, but if present, must be 10 digits)
-    if (!formData.altPhone.trim()) {
-      formErrors.altPhone = "Alternate Phone number is required.";
+    if (!formData.alt_phone.trim()) {
+      formErrors.alt_phone = "Alternate Phone number is required.";
     }
-    if (formData.altPhone && !/^\d{10}$/.test(formData.altPhone)) {
-      formErrors.altPhone = "Alternate phone number must be 10 digits.";
+    if (formData.alt_phone && !/^\d{10}$/.test(formData.alt_phone)) {
+      formErrors.alt_phone = "Alternate phone number must be 10 digits.";
     }
 
     // Email validation
@@ -82,47 +82,101 @@ function SubmitForm() {
     setShowPDF(true); // Temporarily render the PDFTemplate
 
     // Wait a moment for the component to render in the portal
-    // await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
-    // const pdf = new jsPDF("p", "mm", "a4", true);
-    // for (let i = 0; i < componentRefs.current.length; i++) {
-    //   const componentRef = componentRefs.current[i];
-    //   const canvas = await html2canvas(componentRef.current, { scale: 1.5 });
-    //   const imageData = canvas.toDataURL("image/jpeg", 0.6); // use JPEG format and adjust quality
+    const pdf = new jsPDF("p", "mm", "a4", true);
+    for (let i = 0; i < componentRefs.current.length; i++) {
+      const componentRef = componentRefs.current[i];
+      const canvas = await html2canvas(componentRef.current, { scale: 1.5 });
+      const imageData = canvas.toDataURL("image/jpeg", 0.8); // use JPEG format and adjust quality
 
-    //   pdf.addImage(imageData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
-    //   if (i === componentRefs.current.length - 1) {
-    //     // Place the "Visit AARA Consultancy" link directly under the counseling button
+      pdf.addImage(imageData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+      if (i === componentRefs.current.length - 1) {
+        // Place the "Visit AARA Consultancy" link directly under the counseling button
+        pdf.setFillColor(255, 0, 0); // Red button color
+        pdf.roundedRect(78, 125 - 48 + 5, 262, 48, 10, 10, "F");
 
-    //     pdf.setFont("helvetica", "bold"); // Set font to Helvetica bold
-    //     pdf.setFontSize(12);
-    //     pdf.setTextColor(255, 255, 255); // Set color to white (RGB for white)
-    //     pdf.textWithLink("Book your 1-1 Counseling", 78, 125, {
-    //       url: "https://aaraconsultancy.com/one-on-one-counseling/",
-    //     });
-    //     pdf.setFont("helvetica", "normal"); // Set font back to normal
-    //     pdf.setFontSize(12);
-    //     pdf.setTextColor(0, 0, 0); // Set color back to black
-    //     pdf.textWithLink("+91 8108 745 275", 17, 202, {
-    //       url: "tel:+918108745275",
-    //     });
-    //     // Place website and email links near the contact information
-    //     pdf.textWithLink("info@aaraconsultancy.com", 17, 212, {
-    //       url: "mailto:info@aaraconsultancy.com",
-    //     });
-    //     pdf.textWithLink("www.aaraconsultancy.com", 17, 223, {
-    //       url: "https://www.aaraconsultancy.com",
-    //     });
-    //   }
-    //   if (i < componentRefs.current.length - 1) {
-    //     pdf.addPage();
-    //   }
-    // }
+        // Add the text
+        pdf.setFontSize(16);
+        pdf.setTextColor(255, 255, 255); // White text color
+        pdf.text("Book your 1-1 Counseling", 78 + 10, 125 - 48 / 2 + 5);
 
-    // pdf.save("SWOT_Test_Report.pdf");
+        // Make the entire button area a clickable link
+        pdf.link(78, 125 - 48 + 5, 262, 48, {
+          url: "https://aaraconsultancy.com/one-on-one-counseling/",
+        });
+        pdf.setFont("helvetica", "bold"); // Set font to Helvetica bold
+        pdf.setFontSize(12);
+        pdf.setTextColor(255, 255, 255); // Set color to white (RGB for white)
+        pdf.textWithLink("Book your 1-1 Counseling", 78, 125, {
+          url: "https://aaraconsultancy.com/one-on-one-counseling/",
+        });
+        pdf.setFont("helvetica", "normal"); // Set font back to normal
+        pdf.setFontSize(12);
+        pdf.setTextColor(0, 0, 0); // Set color back to black
+        pdf.textWithLink("+91 8108 745 275", 17, 202, {
+          url: "tel:+918108745275",
+        });
+        // Place website and email links near the contact information
+        pdf.textWithLink("info@aaraconsultancy.com", 17, 212, {
+          url: "mailto:info@aaraconsultancy.com",
+        });
+        pdf.textWithLink("www.aaraconsultancy.com", 17, 223, {
+          url: "https://www.aaraconsultancy.com",
+        });
+        pdf.setFont("helvetica", "bold");
+        pdf.textWithLink("Vidyavihar:", 16, 145, {
+          url: "https://www.google.com/search?sca_esv=588668658&rlz=1C1YTUH_enIN1058IN1059&sxsrf=AM9HkKn-VsXce-kL4pCxnEtDHMIxKTQWJA:1701937726300&q=Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai&ludocid=13256448219233310615&lsig=AB86z5VG0zrTuOFFKhDWbLFzKqot&kgs=20992ba1dc59403c&shndl=-1&shem=lsp&source=sh/x/kp/local/m1/1",
+        });
+        pdf.setFont("helvetica", "normal");
+        pdf.textWithLink(
+          "608, 6th Floor, Surya House, Road Number 7, opposite R.N Gandhi High School, near Vidyavihar",
+          16,
+          152,
+          {
+            url: "https://www.google.com/search?sca_esv=588668658&rlz=1C1YTUH_enIN1058IN1059&sxsrf=AM9HkKn-VsXce-kL4pCxnEtDHMIxKTQWJA:1701937726300&q=Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai&ludocid=13256448219233310615&lsig=AB86z5VG0zrTuOFFKhDWbLFzKqot&kgs=20992ba1dc59403c&shndl=-1&shem=lsp&source=sh/x/kp/local/m1/1",
+          }
+        );
+        pdf.textWithLink(
+          "station (east), Rajawadi Colony, Mumbai, Maharashtra 400077",
+          16,
+          158,
+          {
+            url: "https://www.google.com/search?sca_esv=588668658&rlz=1C1YTUH_enIN1058IN1059&sxsrf=AM9HkKn-VsXce-kL4pCxnEtDHMIxKTQWJA:1701937726300&q=Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai&ludocid=13256448219233310615&lsig=AB86z5VG0zrTuOFFKhDWbLFzKqot&kgs=20992ba1dc59403c&shndl=-1&shem=lsp&source=sh/x/kp/local/m1/1",
+          }
+        );
+        pdf.setFont("helvetica", "bold");
+        pdf.textWithLink("Andheri:", 16, 169, {
+          url: "https://www.google.com/maps/place/Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai+(Andheri)/@19.1276504,72.8313149,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b7a61fd49f59:0xdd4c127cfc050b59!8m2!3d19.1276504!4d72.8313149!16s%2Fg%2F11stvs32_3?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D",
+        });
+        pdf.setFont("helvetica", "normal");
+        pdf.textWithLink(
+          "DN Nagar Metro Station, 1308 Lotus Link Square, Besides, JP Rd, D.N.Nagar, Andheri West, Mumbai,",
+          16,
+          176,
+          {
+            url: "https://www.google.com/maps/place/Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai+(Andheri)/@19.1276504,72.8313149,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b7a61fd49f59:0xdd4c127cfc050b59!8m2!3d19.1276504!4d72.8313149!16s%2Fg%2F11stvs32_3?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D",
+          }
+        );
+        pdf.textWithLink("Maharashtra 400053", 16, 182, {
+          url: "https://www.google.com/maps/place/Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai+(Andheri)/@19.1276504,72.8313149,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b7a61fd49f59:0xdd4c127cfc050b59!8m2!3d19.1276504!4d72.8313149!16s%2Fg%2F11stvs32_3?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D",
+        });
+      }
+      if (i < componentRefs.current.length - 1) {
+        pdf.addPage();
+      }
+    }
+
+    pdf.save("SWOT_Test_Report.pdf");
 
     setShowPDF(false);
   };
+
+  useEffect(() => {
+    if (responses.length < 19) {
+      navigate("/");
+    }
+  }, [responses]);
 
   return (
     <div>
@@ -177,14 +231,14 @@ function SubmitForm() {
             <div className="col-span-11 md:col-span-8">
               <input
                 type="text"
-                name="altPhone"
-                value={formData.altPhone}
+                name="alt_phone"
+                value={formData.alt_phone}
                 onChange={handleInputChange}
                 placeholder="Alternate Phone Number"
                 className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
               />
-              {errors.altPhone && (
-                <p className="text-red-500">{errors.altPhone}</p>
+              {errors.alt_phone && (
+                <p className="text-red-500">{errors.alt_phone}</p>
               )}
             </div>
 
@@ -212,6 +266,7 @@ function SubmitForm() {
         </form>
 
         {/* Render PDFTemplate in a portal if showPDF is true */}
+        <button onClick={downloadPDF}>download</button>
       </div>
       {showPDF &&
         ReactDOM.createPortal(

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import logo from "../assets/Aara_logo.png";
 import { useQuiz } from "../context/QuizContext";
@@ -8,6 +8,9 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { responses } = useQuiz();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isSubmitForm = location.pathname === "/submit"; // Check if user is on submitform route
+
   return (
     <nav>
       <div className="bg-white flex justify-between items-center p-4">
@@ -17,7 +20,9 @@ function Navbar() {
         <div className="hidden md:flex space-x-8 px-10">
           <Link
             to="/"
-            className="text-black font-extrabold text-md lg:text-lg font-poppins hover:text-gray-600"
+            className={`text-black font-extrabold text-md lg:text-lg font-poppins hover:text-gray-600 ${
+              isSubmitForm ? "pointer-events-none text-gray-400" : ""
+            }`}
           >
             Home
           </Link>
@@ -26,12 +31,18 @@ function Navbar() {
               href="https://aaraconsultancy.com/about-us/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
             >
               About Us
             </a>
           ) : (
-            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+            <Link
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
+            >
               About Us
             </Link>
           )}
@@ -40,12 +51,18 @@ function Navbar() {
               href="https://aaraconsultancy.com/contact-us/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
             >
               Contact Us
             </a>
           ) : (
-            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+            <Link
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
+            >
               Contact Us
             </Link>
           )}
@@ -72,7 +89,9 @@ function Navbar() {
         <div className="flex flex-col space-y-4 px-10 py-4">
           <Link
             to="/"
-            className="text-black font-extrabold text-md lg:text-lg font-poppins hover:text-gray-600"
+            className={`text-black font-extrabold text-md lg:text-lg font-poppins hover:text-gray-600 ${
+              isSubmitForm ? "pointer-events-none text-gray-400" : ""
+            }`}
             onClick={() => setIsOpen(false)}
           >
             Home
@@ -82,12 +101,18 @@ function Navbar() {
               href="https://aaraconsultancy.com/about-us/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
             >
               About Us
             </a>
           ) : (
-            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+            <Link
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
+            >
               About Us
             </Link>
           )}
@@ -96,12 +121,18 @@ function Navbar() {
               href="https://aaraconsultancy.com/contact-us/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600"
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
             >
               Contact Us
             </a>
           ) : (
-            <Link className="text-black font-extrabold text-md lg:text-lg hover:text-gray-600">
+            <Link
+              className={`text-black font-extrabold text-md lg:text-lg hover:text-gray-600 ${
+                isSubmitForm ? "pointer-events-none text-gray-400" : ""
+              }`}
+            >
               Contact Us
             </Link>
           )}
