@@ -21,6 +21,7 @@ function SubmitForm() {
     email: "",
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); // Loading state
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -69,6 +70,7 @@ function SubmitForm() {
     e.preventDefault();
 
     if (validateForm()) {
+      setLoading(true);
       const data = {
         responses: responses,
         user_detail: formData,
@@ -84,10 +86,14 @@ function SubmitForm() {
           setShowPDF(true);
         }
         downloadPDF();
+        const pdfBlob = await downloadPDF(); // Get the PDF blob
+        await sendPdf(pdfBlob); // Send the PDF blob to the new API
         toast.success("Response submitted successfully");
       } catch (error) {
         toast.error("Failed to submit response. Please try again.");
         console.error("Error submitting form:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     }
   };
@@ -168,9 +174,31 @@ function SubmitForm() {
       }
     }
 
-    pdf.save("SWOT_Test_Report.pdf");
+    // pdf.save("SWOT_Test_Report.pdf");
 
     setShowPDF(false);
+    return pdf.output("blob");
+  };
+
+  const sendPdf = async (pdfBlob) => {
+    const data = new FormData();
+    const uniqueId = new Date().toISOString().replace(/[-:.TZ]/g, "");
+    data.append(
+      "pdf_file_path",
+      pdfBlob,
+      `SWOT_Test_Report_${formData.name.replace(" ", "_")}_${uniqueId}.pdf`
+    );
+    data.append("student_email", formData.email);
+    try {
+      await axios.post("http://127.0.0.1:8000/swot/download", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to send PDF. Please try again.");
+      console.error("Error sending PDF:", error);
+    }
   };
 
   useEffect(() => {
@@ -260,15 +288,20 @@ function SubmitForm() {
           </div>
           <button
             type="submit"
-            className="w-fit bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-6 lg:py-6 lg:px-8 rounded ml-12"
+            className="w-fit bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-6 lg:py-6 lg:px-8 rounded ml-12 flex items-center"
           >
-            Submit & Get Report
+            {loading && (
+              <div className="flex justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+              </div>
+            )}
+            {loading ? "Submitting..." : "Submit & Get Report"}
           </button>
         </form>
 
         {/* Render PDFTemplate in a portal if showPDF is true */}
-        <button onClick={downloadPDF}>download</button>
       </div>
+
       {showPDF &&
         pdfFill &&
         ReactDOM.createPortal(
