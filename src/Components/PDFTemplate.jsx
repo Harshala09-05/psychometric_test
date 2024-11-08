@@ -262,7 +262,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
             </div>
 
             {/* Introduction Text */}
-            <div className="text-left text-gray-800 p-4">
+            <div className="text-gray-800 p-4 text-justify">
               <p className="mb-4">
                 The <strong>SWOT TEST</strong> helps individuals identify what
                 they're good at, areas they can improve, chances they can take
@@ -319,14 +319,12 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
 
             {/* Profile Description */}
             <div className="mb-8 ">
-              <h2 className="text-2xl font-semibold">
+              <h2 className="text-2xl font-semibold mb-2">
                 {userDetail.name}'s Profile
               </h2>
               {data.strengths.map((item, index) => (
-                <div key={index} className="mb-4">
-                  <p className="text-md text-gray-600">
-                    {item.profile_description}
-                  </p>
+                <div key={index} className="mb-4 p-2 text-justify">
+                  <p className="text-md">{item.profile_description}</p>
                 </div>
               ))}
               <p className="mt-4 text-lg"></p>
@@ -337,9 +335,9 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
               <h3 className="text-2xl font-bold">Probable Career Fields</h3>
               <div className="flex flex-col space-y-4 mt-4 text-lg">
                 {data.career_fields.map((field, index) => (
-                  <div key={index} className="flex items-start">
+                  <div key={index} className="flex items-start text-justify">
                     <span className="mr-2 text-black font-bold">•</span>
-                    <p>{field.field_name}</p>
+                    <p className="max-w-80 ">{field.field_name}</p>
                   </div>
                 ))}
               </div>
@@ -355,7 +353,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
         </div>
 
         {/* Probable Career Choices Pages */}
-        <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
+        {/* <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div> */}
         {/* Header */}
 
         {/* Loop through each career item in the array */}
@@ -410,7 +408,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
                 Probable Career Choices
               </h1>
               {chunk.map((career, index) => (
-                <div key={index} className="mb-8 flex-1">
+                <div key={index} className="mb-8 flex-1 text-justify">
                   <h2 className="text-2xl font-semibold mb-4">
                     {career.field_name}
                   </h2>
@@ -419,8 +417,20 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
                   </p>
                   <p className="text-lg mb-8">
                     <strong>Example:</strong>
-                    {career.example1}
-                    {career.example2 && career.example2}
+                    {career.example2 ? (
+                      <div>
+                        <div className="flex items-start">
+                          <span className="mr-2 text-black font-bold">•</span>
+                          <p>{career.example1}</p>
+                        </div>
+                        <div className="flex items-start">
+                          <span className="mr-2 text-black font-bold">•</span>
+                          <p>{career.example2}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <p>{career.example1}</p>
+                    )}
                   </p>
                 </div>
               ))}
@@ -450,7 +460,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
             <h2 className="text-2xl font-bold">{mainSWOT}</h2>
             <div className="flex flex-col space-y-3 mt-4 ml-4 flex-1">
               {Fields.map((field, fieldIndex) => (
-                <div key={fieldIndex} className="flex items-start">
+                <div key={fieldIndex} className="flex items-start text-justify">
                   <span className="mr-2 text-black font-bold">•</span>
                   <p>
                     {mainSWOT === "Strengths" || mainSWOT === "Weaknesses" ? (
@@ -500,7 +510,10 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
               <h3 className="text-2xl font-semibold text-left">Threat</h3>
               <div className="flex flex-col space-y-4 mt-4 text-lg ml-4 text-left">
                 {data.career_fields.map((field, index) => (
-                  <div key={index} className="flex items-start leading-normal">
+                  <div
+                    key={index}
+                    className="flex items-start leading-normal text-justify"
+                  >
                     <span className="mr-2 text-black font-bold">•</span>
                     <p>{field.threats}</p>
                   </div>
@@ -585,7 +598,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
             </div>
 
             {/* Contact Details */}
-            <div className="flex flex-col items-start space-y-2 p-4">
+            <div className="flex flex-col items-start space-y-6 p-4 mt-16">
               <div className="flex items-center space-x-2">
                 <span className="text-white bg-red-500 rounded-full p-1">
                   <IconPhoneFilled stroke={1} />
