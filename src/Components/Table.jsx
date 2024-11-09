@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTable } from "react-table";
+import * as XLSX from "xlsx";
 
 function Table() {
   const [password, setPassword] = useState("");
@@ -10,19 +11,54 @@ function Table() {
   const [table, setTable] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(25); // Default rows per page to 25
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
 
+  const handleSelectAll = (e) => {
+    setSelectAll(e.target.checked);
+    if (e.target.checked) {
+      setSelectedRows(paginatedData);
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
+  const handleRowSelect = (row) => {
+    setSelectedRows((prev) =>
+      prev.includes(row) ? prev.filter((r) => r !== row) : [...prev, row]
+    );
+  };
+
+  const deleteRow = async (id) => {
+    try {
+      await axios.delete("http://127.0.0.1:8000/swot/studentdetails/", {
+        data: { id: id },
+      });
+      // Remove the deleted row from the table data in the frontend
+      setTable((prev) => prev.filter((row) => row.id !== id));
+      toast.success("Student deleted successfully.");
+    } catch (error) {
+      toast.error("Could not delete student.");
+    }
+  };
   const columns = React.useMemo(
     () => [
-      { Header: "Name", accessor: "name" },
       {
-        Header: "Phone Number",
-        accessor: "phone",
+        Header: (
+          <input
+            type="checkbox"
+            checked={selectAll}
+            onChange={handleSelectAll}
+          />
+        ),
+        accessor: "select",
         Cell: ({ row }) => (
-          <div>
-            <div>{row.original.phone}</div>
-            <div>{row.original.alt_phone}</div>
-          </div>
+          <input
+            type="checkbox"
+            checked={selectedRows.includes(row.original)}
+            onChange={() => handleRowSelect(row.original)}
+          />
         ),
       },
       { Header: "Email", accessor: "email" },
@@ -44,11 +80,16 @@ function Table() {
         Header: "Delete",
         accessor: "delete",
         Cell: ({ row }) => (
-          <button className="text-red-600 hover:underline">X</button>
+          <button
+            className="text-red-600 hover:underline"
+            onClick={() => deleteRow(row.original.id)}
+          >
+            X
+          </button>
         ),
       },
     ],
-    []
+    [selectedRows, selectAll]
   );
 
   const handlePasswordSubmit = () => {
@@ -64,7 +105,13 @@ function Table() {
       const response = await axios.get(
         "http://127.0.0.1:8000/swot/studentdetails/"
       );
-      setTable(response.data);
+
+      // Sort by createdAt descending or reverse for latest data on top
+      const sortedData = response.data.sort(
+        (a, b) => new Date(b.id) - new Date(a.id)
+      );
+
+      setTable(sortedData);
     } catch (err) {
       toast.error("Couldn't get student details");
     }
@@ -74,7 +121,19 @@ function Table() {
     getTable();
   }, []);
 
-  // Filtering data based on search term
+  const exportSelectedRowsToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(selectedRows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Selected Rows");
+    XLSX.writeFile(wb, "Selected_Rows.xlsx");
+  };
+  const exportAllRowsToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(table);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "All Table Data");
+    XLSX.writeFile(wb, "All_Table_Data.xlsx");
+  };
+
   const filteredData = table.filter(
     (row) =>
       row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -82,7 +141,6 @@ function Table() {
       row.phone.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const paginatedData = filteredData.slice(
     (currentPage - 1) * rowsPerPage,
@@ -92,7 +150,7 @@ function Table() {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
-      data: paginatedData, // Use the paginated data here
+      data: paginatedData,
     });
 
   const handleNextPage = () => {
@@ -105,24 +163,21 @@ function Table() {
 
   const handleRowsPerPageChange = (e) => {
     setRowsPerPage(Number(e.target.value));
-    setCurrentPage(1); // Reset to the first page when rows per page changes
+    setCurrentPage(1);
   };
 
   const handleDownloadReport = async (studentId, pdfLink) => {
     try {
-      // Fetch the file as a Blob
       const response = await fetch(pdfLink);
       const blob = await response.blob();
 
-      // Create a download link and trigger it
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `Report_${studentId}.pdf`); // Define filename here
+      link.setAttribute("download", `Report_${studentId}.pdf`);
       document.body.appendChild(link);
       link.click();
 
-      // Clean up
       link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
@@ -156,19 +211,18 @@ function Table() {
         </div>
       ) : (
         <div>
-          {/* Rows per page selector */}
-          <div className="mb-4 flex justify-center items-center">
+          <div className="mb-4 flex justify-between items-center">
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reset to the first page when filtering
+                setCurrentPage(1);
               }}
               placeholder="Search by Name, Email, or Phone"
               className="p-2 border border-gray-400"
             />
-            <div className="flex-1">
+            <div className="flex items-center">
               <label htmlFor="rowsPerPage" className="mr-2">
                 Rows per page:
               </label>
@@ -184,27 +238,18 @@ function Table() {
                 <option value={100}>100</option>
               </select>
             </div>
-            <div className="flex justify-center items-center mt-4">
+            <div className="space-x-3 ">
               <button
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                className={`p-2 ${
-                  currentPage === 1 ? "text-gray-400" : "text-black"
-                }`}
+                onClick={exportSelectedRowsToExcel}
+                className="p-2 bg-green-500 text-white"
               >
-                Previous
+                Export Selected Rows
               </button>
-              <span>
-                Page {currentPage} of {totalPages}
-              </span>
               <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className={`p-2 ${
-                  currentPage === totalPages ? "text-gray-400" : "text-black"
-                }`}
+                onClick={exportAllRowsToExcel}
+                className="p-2 bg-blue-500 text-white"
               >
-                Next
+                Export All Table Data
               </button>
             </div>
           </div>
@@ -247,7 +292,6 @@ function Table() {
               })}
             </tbody>
           </table>
-          {/* Pagination Controls */}
           <div className="flex justify-center items-center mt-4">
             <button
               onClick={handlePreviousPage}
