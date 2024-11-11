@@ -16,9 +16,12 @@ function SubmitForm() {
   const componentRefs = useRef([]); // Refs array for PDF pages
   const [formData, setFormData] = useState({
     name: "",
+    grade: "",
+    school_name: "",
     phone: "",
     alt_phone: "",
     email: "",
+    alt_email: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false); // Loading state
@@ -62,6 +65,15 @@ function SubmitForm() {
       formErrors.email = "Please enter a valid email address.";
     }
 
+    // Alternate Email validation (if present)
+    if (
+      formData.alt_email &&
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+        formData.alt_email
+      )
+    ) {
+      formErrors.alt_email = "Please enter a valid alternate email address.";
+    }
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0; // Returns true if no errors
   };
@@ -224,6 +236,7 @@ function SubmitForm() {
         {/* Form */}
         <form onSubmit={submitForm} className="space-y-6 flex flex-col w-full">
           <div className="grid grid-cols-12 items-center ml-12 space-y-2">
+            {/* Name */}
             <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
               Name:
             </label>
@@ -234,13 +247,48 @@ function SubmitForm() {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Name"
-                className=" px-4 py-2 border rounded-md focus:outline-black border-black w-full"
+                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full"
               />
               {errors.name && <p className="text-red-500">{errors.name}</p>}
             </div>
 
+            {/* Grade */}
             <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
-              Phone no:
+              Grade:
+            </label>
+            <div className="col-span-11 md:col-span-8">
+              <input
+                type="text"
+                name="grade"
+                value={formData.grade}
+                onChange={handleInputChange}
+                placeholder="Grade"
+                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full"
+              />
+              {errors.grade && <p className="text-red-500">{errors.grade}</p>}
+            </div>
+
+            {/* School Name */}
+            <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
+              School Name:
+            </label>
+            <div className="col-span-11 md:col-span-8">
+              <input
+                type="text"
+                name="school_name"
+                value={formData.school_name}
+                onChange={handleInputChange}
+                placeholder="School Name"
+                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full"
+              />
+              {errors.school_name && (
+                <p className="text-red-500">{errors.school_name}</p>
+              )}
+            </div>
+
+            {/* Phone */}
+            <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
+              Phone No:
             </label>
             <div className="col-span-11 md:col-span-8">
               <input
@@ -249,13 +297,14 @@ function SubmitForm() {
                 value={formData.phone}
                 onChange={handleInputChange}
                 placeholder="Phone"
-                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black "
+                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
               />
               {errors.phone && <p className="text-red-500">{errors.phone}</p>}
             </div>
 
+            {/* Alternate Phone */}
             <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
-              Alternate Phone no (Parent):
+              Alternate Phone No (Parent):
             </label>
             <div className="col-span-11 md:col-span-8">
               <input
@@ -271,6 +320,7 @@ function SubmitForm() {
               )}
             </div>
 
+            {/* Email */}
             <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
               Email:
             </label>
@@ -285,7 +335,26 @@ function SubmitForm() {
               />
               {errors.email && <p className="text-red-500">{errors.email}</p>}
             </div>
+
+            {/* Alternate Email */}
+            <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
+              Alternate Email:
+            </label>
+            <div className="col-span-11 md:col-span-8">
+              <input
+                type="email"
+                name="alt_email"
+                value={formData.alt_email}
+                onChange={handleInputChange}
+                placeholder="Alternate Email"
+                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
+              />
+              {errors.alt_email && (
+                <p className="text-red-500">{errors.alt_email}</p>
+              )}
+            </div>
           </div>
+
           <button
             type="submit"
             className="w-fit bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-6 lg:py-6 lg:px-8 rounded ml-12 flex items-center"
@@ -310,7 +379,7 @@ function SubmitForm() {
             userDetail={formData}
             data={pdfFill}
           />,
-          document.body
+          document.body,
         )}
     </div>
   );

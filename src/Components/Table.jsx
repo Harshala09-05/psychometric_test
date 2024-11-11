@@ -35,13 +35,13 @@ function Table() {
       await axios.delete("http://127.0.0.1:8000/swot/studentdetails/", {
         data: { id: id },
       });
-      // Remove the deleted row from the table data in the frontend
       setTable((prev) => prev.filter((row) => row.id !== id));
       toast.success("Student deleted successfully.");
     } catch (error) {
       toast.error("Could not delete student.");
     }
   };
+
   const columns = React.useMemo(
     () => [
       {
@@ -61,7 +61,30 @@ function Table() {
           />
         ),
       },
-      { Header: "Email", accessor: "email" },
+      { Header: "Name", accessor: "name" },
+      { Header: "Grade", accessor: "grade" },
+      { Header: "School Name", accessor: "school_name" },
+      {
+        Header: "Phone",
+        accessor: "phone",
+        Cell: ({ row }) => (
+          <div>
+            <div>{row.original.phone}</div>
+            <div>{row.original.alt_phone ? `(Parent) ${row.original.alt_phone}` : ""}</div>
+          </div>
+        ),
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+        Cell: ({ row }) => (
+          <div>
+            <div>{row.original.email}</div>
+            <div>{row.original.alt_email ? `(Parent) ${row.original.alt_email}` : ""}</div>
+          </div>
+        ),
+      },
+      
       {
         Header: "Report",
         accessor: "report",
@@ -106,7 +129,6 @@ function Table() {
         "http://127.0.0.1:8000/swot/studentdetails/"
       );
 
-      // Sort by createdAt descending or reverse for latest data on top
       const sortedData = response.data.sort(
         (a, b) => new Date(b.id) - new Date(a.id)
       );
@@ -260,6 +282,7 @@ function Table() {
             <thead>
               {headerGroups.map((headerGroup) => (
                 <tr
+
                   {...headerGroup.getHeaderGroupProps()}
                   className="bg-black text-white"
                 >
