@@ -9,54 +9,54 @@ function Table() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [table, setTable] = useState([
-    {
-      id: 1,
-      name: "Harshala Patil",
-      email: "harsadshayuyuasfgawdu09dad@gmail.com",
-      phone: "1234567890",
-      alt_phone: "1234567890",
-      alt_email: "antimayadtytav3awd102002@gmail.com",
-      grade: "10th",
-      school_name: "holy paradise high school",
-      pdf_link:
-        "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuyuasfgawdu09dad@gmail.com_20241111181419.pdf",
-    },
-    {
-      id: 2,
-      name: "Harshala Patil",
-      email: "harsadshayuyuasfgaggdu09dad@gmail.com",
-      phone: "1234567890",
-      alt_phone: "1234567890",
-      alt_email: "antimayadtytav3awxxd102002@gmail.com",
-      grade: "10th",
-      school_name: "holy paradise high school",
-      pdf_link:
-        "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuyuasfgaggdu09dad@gmail.com_20241111181536.pdf",
-    },
-    {
-      id: 3,
-      name: "Harshala Patil",
-      email: "harsadshayuydduasfgaggdu09dad@gmail.com",
-      phone: "1234567890",
-      alt_phone: "1234567890",
-      alt_email: "antimayadtytadev3awxxd102002@gmail.com",
-      grade: "10th",
-      school_name: "holy paradise high school",
-      pdf_link:
-        "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuydduasfgaggdu09dad@gmail.com_20241111181616.pdf",
-    },
-    {
-      id: 4,
-      name: "Harshala Patil",
-      email: "harsadshayuydduasfgdsaggdu09dad@gmail.com",
-      phone: "1234567890",
-      alt_phone: "1234567890",
-      alt_email: "antimayadtytadesdfv3awxxd102002@gmail.com",
-      grade: "10th",
-      school_name: "holy paradise high school",
-      pdf_link:
-        "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuydduasfgdsaggdu09dad@gmail.com_20241111181802.pdf",
-    },
+    // {
+    //   id: 1,
+    //   name: "Harshala Patil",
+    //   email: "harsadshayuyuasfgawdu09dad@gmail.com",
+    //   phone: "1234567890",
+    //   alt_phone: "1234567890",
+    //   alt_email: "antimayadtytav3awd102002@gmail.com",
+    //   grade: "10th",
+    //   school_name: "holy paradise high school",
+    //   pdf_link:
+    //     "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuyuasfgawdu09dad@gmail.com_20241111181419.pdf",
+    // },
+    // {
+    //   id: 2,
+    //   name: "Harshala Patil",
+    //   email: "harsadshayuyuasfgaggdu09dad@gmail.com",
+    //   phone: "1234567890",
+    //   alt_phone: "1234567890",
+    //   alt_email: "antimayadtytav3awxxd102002@gmail.com",
+    //   grade: "10th",
+    //   school_name: "holy paradise high school",
+    //   pdf_link:
+    //     "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuyuasfgaggdu09dad@gmail.com_20241111181536.pdf",
+    // },
+    // {
+    //   id: 3,
+    //   name: "Harshala Patil",
+    //   email: "harsadshayuydduasfgaggdu09dad@gmail.com",
+    //   phone: "1234567890",
+    //   alt_phone: "1234567890",
+    //   alt_email: "antimayadtytadev3awxxd102002@gmail.com",
+    //   grade: "10th",
+    //   school_name: "holy paradise high school",
+    //   pdf_link:
+    //     "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuydduasfgaggdu09dad@gmail.com_20241111181616.pdf",
+    // },
+    // {
+    //   id: 4,
+    //   name: "Harshala Patil",
+    //   email: "harsadshayuydduasfgdsaggdu09dad@gmail.com",
+    //   phone: "1234567890",
+    //   alt_phone: "1234567890",
+    //   alt_email: "antimayadtytadesdfv3awxxd102002@gmail.com",
+    //   grade: "10th",
+    //   school_name: "holy paradise high school",
+    //   pdf_link:
+    //     "https://psychometric-data.s3.ap-south-1.amazonaws.com/SWOT_Test_Report_harsadshayuydduasfgdsaggdu09dad@gmail.com_20241111181802.pdf",
+    // },
   ]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
