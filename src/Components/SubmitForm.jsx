@@ -41,6 +41,20 @@ function SubmitForm() {
       formErrors.name = "Name is required.";
     }
 
+    if (!Number.isInteger(Number(formData.grade))) {
+      formErrors.grade = "Year of study must be a valid integer.";
+    } else if (!formData.grade.trim()) {
+      formErrors.grade = "Year of study is required.";
+    }
+
+    if (!formData.school_name.trim()) {
+      formErrors.school_name = "School Name is required.";
+    }
+
+    if (!formData.grade.trim()) {
+      formErrors.grade = "Year of study is required.";
+    }
+
     // Phone validation (e.g., must be 10 digits)
     if (!formData.phone.trim()) {
       formErrors.phone = "Phone number is required.";
@@ -49,9 +63,7 @@ function SubmitForm() {
     }
 
     // Alternate phone validation (optional, but if present, must be 10 digits)
-    if (!formData.alt_phone.trim()) {
-      formErrors.alt_phone = "Alternate Phone number is required.";
-    }
+
     if (formData.alt_phone && !/^\d{10}$/.test(formData.alt_phone)) {
       formErrors.alt_phone = "Alternate phone number must be 10 digits.";
     }
@@ -247,14 +259,14 @@ function SubmitForm() {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Name"
-                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full"
+                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full max-w-lg"
               />
               {errors.name && <p className="text-red-500">{errors.name}</p>}
             </div>
 
             {/* Grade */}
             <label className="block text-sm font-medium text-gray-700 mb-1 col-span-11 md:col-span-3 text-start">
-              Grade:
+              Year Of Study:
             </label>
             <div className="col-span-11 md:col-span-8">
               <input
@@ -263,7 +275,7 @@ function SubmitForm() {
                 value={formData.grade}
                 onChange={handleInputChange}
                 placeholder="Grade"
-                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full"
+                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full max-w-lg"
               />
               {errors.grade && <p className="text-red-500">{errors.grade}</p>}
             </div>
@@ -279,7 +291,7 @@ function SubmitForm() {
                 value={formData.school_name}
                 onChange={handleInputChange}
                 placeholder="School Name"
-                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full"
+                className="px-4 py-2 border rounded-md focus:outline-black border-black w-full max-w-lg"
               />
               {errors.school_name && (
                 <p className="text-red-500">{errors.school_name}</p>
@@ -297,7 +309,7 @@ function SubmitForm() {
                 value={formData.phone}
                 onChange={handleInputChange}
                 placeholder="Phone"
-                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
+                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black max-w-lg"
               />
               {errors.phone && <p className="text-red-500">{errors.phone}</p>}
             </div>
@@ -313,7 +325,7 @@ function SubmitForm() {
                 value={formData.alt_phone}
                 onChange={handleInputChange}
                 placeholder="Alternate Phone Number"
-                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
+                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black max-w-lg"
               />
               {errors.alt_phone && (
                 <p className="text-red-500">{errors.alt_phone}</p>
@@ -331,7 +343,7 @@ function SubmitForm() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Email"
-                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
+                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black max-w-lg"
               />
               {errors.email && <p className="text-red-500">{errors.email}</p>}
             </div>
@@ -347,7 +359,7 @@ function SubmitForm() {
                 value={formData.alt_email}
                 onChange={handleInputChange}
                 placeholder="Alternate Email"
-                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black"
+                className="w-full px-4 py-2 border rounded-md focus:outline-black border-black max-w-lg"
               />
               {errors.alt_email && (
                 <p className="text-red-500">{errors.alt_email}</p>
@@ -379,7 +391,7 @@ function SubmitForm() {
             userDetail={formData}
             data={pdfFill}
           />,
-          document.body,
+          document.body
         )}
     </div>
   );
