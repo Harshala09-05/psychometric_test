@@ -214,11 +214,15 @@ function SubmitForm() {
     data.append("student_email", formData.email);
     try {
       console.log(data);
-      await axios.post("http://127.0.0.1:8000/swot/dwonloadreport/", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/swot/dwonloadreport/`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
     } catch (error) {
       toast.error("Failed to send PDF. Please try again.");
       console.error("Error sending PDF:", error);

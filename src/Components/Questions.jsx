@@ -37,7 +37,9 @@ function Questions() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/swot/questions`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/swot/questions`
+      );
       setQuestions(response.data.questions_list);
     } catch (error) {
       setError("Failed to load questions. Please try again later.");

@@ -81,9 +81,12 @@ function Table() {
 
   const deleteRow = async (id) => {
     try {
-      await axios.delete("http://127.0.0.1:8000/swot/studentdetails/", {
-        data: { id: id },
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/swot/studentdetails/`,
+        {
+          data: { id: id },
+        }
+      );
       setTable((prev) => prev.filter((row) => row.id !== id));
       toast.success("Student deleted successfully.");
     } catch (error) {
@@ -183,7 +186,7 @@ function Table() {
   const getTable = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/swot/studentdetails/"
+        `${process.env.REACT_APP_BASE_URL}/swot/studentdetails/`
       );
 
       const sortedData = response.data.sort(
