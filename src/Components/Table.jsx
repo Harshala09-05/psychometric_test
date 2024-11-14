@@ -110,6 +110,20 @@ function Table() {
           />
         ),
       },
+      {
+        Header: "Date and Time",
+        accessor: "created_at",
+        Cell: ({ value }) => {
+          const date = new Date(value).toLocaleDateString();
+          const time = new Date(value).toLocaleTimeString();
+          return (
+            <div>
+              <div>{date}</div>
+              <div>{time}</div>
+            </div>
+          );
+        },
+      },
       { Header: "Name", accessor: "name" },
       { Header: "Year Of Study", accessor: "grade" },
       { Header: "School Name", accessor: "school_name" },
@@ -134,9 +148,7 @@ function Table() {
           <div>
             <div>{row.original.email}</div>
             <div>
-              {row.original.alt_email
-                ? `(Parent) ${row.original.alt_email}`
-                : ""}
+              {row.original.alt_email ? ` ${row.original.alt_email}` : ""}
             </div>
           </div>
         ),

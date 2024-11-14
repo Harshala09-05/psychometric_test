@@ -19,164 +19,18 @@ import {
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 const PDFTemplate = ({ refArray, userDetail, data }) => {
-  console.log(userDetail);
-  console.log(data);
   // const userName = "Sachin Kaythamwar";
   const testDate = new Date().toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "short",
     year: "numeric",
   });
-  // const profileDescription =
-  //   "The candidate demonstrates empathy by showing genuine concern for others' feelings and experiences. They have a natural ability to listen attentively, understand different perspectives, and offer support and comfort when needed. This trait allows them to build meaningful relationships and contribute positively to the community.";
 
-  // const careerFields = [
-  //   "Psychology",
-  //   "Doctor and other paramedical fields",
-  //   "Biotechnology",
-  // ];
-
-  // const careerData = [
-  //   {
-  //     mainCareer: "Psychology",
-  //     description:
-  //       "Psychology helps us understand how people think, feel, and behave. Psychologists work to improve mental health, develop new ways to help people, and study why we act the way we do. They play an important role in making sure people stay mentally healthy and happy.",
-  //     example:
-  //       "Going to a therapist to talk about your feelings or using relaxation techniques to deal with stress shows how psychology helps us in our daily lives.",
-  //   },
-  //   {
-  //     mainCareer: "Biology",
-  //     description:
-  //       "Biology is the study of life and living organisms, covering topics such as genetics, ecology, and evolution. Biologists work to understand how organisms function, interact, and evolve over time.",
-  //     example:
-  //       "Studying how plants photosynthesize or how animals adapt to their environment are examples of biology in action.",
-  //   },
-  //   {
-  //     mainCareer: "Engineering",
-  //     description:
-  //       "Engineering applies scientific and mathematical principles to solve practical problems, from designing buildings to developing software. Engineers work in various fields like civil, mechanical, and software engineering.",
-  //     example:
-  //       "Creating a bridge structure that can withstand heavy loads or developing software to automate tasks are examples of engineering applications.",
-  //   },
-  //   {
-  //     mainCareer: "Psychology",
-  //     description:
-  //       "Psychology helps us understand how people think, feel, and behave. Psychologists work to improve mental health, develop new ways to help people, and study why we act the way we do. They play an important role in making sure people stay mentally healthy and happy.",
-  //     example:
-  //       "Going to a therapist to talk about your feelings or using relaxation techniques to deal with stress shows how psychology helps us in our daily lives.",
-  //   },
-  //   {
-  //     mainCareer: "Biology",
-  //     description:
-  //       "Biology is the study of life and living organisms, covering topics such as genetics, ecology, and evolution. Biologists work to understand how organisms function, interact, and evolve over time.",
-  //     example:
-  //       "Studying how plants photosynthesize or how animals adapt to their environment are examples of biology in action.",
-  //   },
-  //   {
-  //     mainCareer: "Engineering",
-  //     description:
-  //       "Engineering applies scientific and mathematical principles to solve practical problems, from designing buildings to developing software. Engineers work in various fields like civil, mechanical, and software engineering.",
-  //     example:
-  //       "Creating a bridge structure that can withstand heavy loads or developing software to automate tasks are examples of engineering applications.",
-  //   },
-  // ];
-
-  // const SwOT = [
-  //   {
-  //     mainSWOT: "Strength",
-  //     Fields: [
-  //       {
-  //         label: "Empathetic",
-  //         description:
-  //           "Empathy fosters strong interpersonal relationships, understanding of diverse perspectives, and offering support to peers in need.",
-  //       },
-  //       {
-  //         label: "Data & Numbers",
-  //         description:
-  //           "Being good with data and numbers helps you analyze information effectively, make informed decisions, and solve complex problems.",
-  //       },
-  //       {
-  //         label: "Research-oriented",
-  //         description:
-  //           "Having a research-oriented mindset encourages curiosity, critical thinking, and the ability to find credible sources of information.",
-  //       },
-  //       {
-  //         label: "Communication Skills",
-  //         description:
-  //           "Having strong communication skills allows you to interact effectively with peers, teachers, and professionals. You can present ideas clearly, collaborate efficiently, and resolve conflicts.",
-  //       },
-  //       {
-  //         label: "Creativity",
-  //         description:
-  //           "Being creative sparks innovation, problem-solving, and thinking outside the box. This leads to unique solutions and approaches to challenges.",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     mainSWOT: "Weakness",
-  //     Fields: [
-  //       {
-  //         label: "Biology",
-  //         description:
-  //           "Empathy fosters strong interpersonal relationships, understanding of diverse perspectives, and offering support to peers in need.",
-  //       },
-  //       {
-  //         label: "Leadership Skills",
-  //         description:
-  //           "Being good with data and numbers helps you analyze information effectively, make informed decisions, and solve complex problems.",
-  //       },
-  //       {
-  //         label: "Communication Skills",
-  //         description:
-  //           "Having strong communication skills allows you to interact effectively with peers, teachers, and professionals. You can present ideas clearly, collaborate efficiently, and resolve conflicts.",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     mainSWOT: "Opportunity",
-  //     Fields: [
-  //       {
-  //         label: "Empathetic",
-  //         description:
-  //           "Empathy fosters strong interpersonal relationships, understanding of diverse perspectives, and offering support to peers in need.",
-  //       },
-  //       {
-  //         label: "Data & Numbers",
-  //         description:
-  //           "Being good with data and numbers helps you analyze information effectively, make informed decisions, and solve complex problems.",
-  //       },
-  //       {
-  //         label: "Research-oriented",
-  //         description:
-  //           "Having a research-oriented mindset encourages curiosity, critical thinking, and the ability to find credible sources of information.",
-  //       },
-  //       {
-  //         label: "Communication Skills",
-  //         description:
-  //           "Having strong communication skills allows you to interact effectively with peers, teachers, and professionals. You can present ideas clearly, collaborate efficiently, and resolve conflicts.",
-  //       },
-  //       {
-  //         label: "Creativity",
-  //         description:
-  //           "Being creative sparks innovation, problem-solving, and thinking outside the box. This leads to unique solutions and approaches to challenges.",
-  //       },
-  //     ],
-  //   },
-  // ];
-  const SWOT = [
-    {
-      mainSWOT: "Strengths",
-      Fields: data?.strengths || [], // Ensure `Fields` defaults to an empty array if `data.strengths` is undefined
-    },
-    {
-      mainSWOT: "Weaknesses",
-      Fields: data?.weaknesses || [], // Ensure `Fields` defaults to an empty array if `data.weakness` is undefined
-    },
-    {
-      mainSWOT: "Opportunities",
-      Fields: data?.career_fields?.map((field) => field.opportunities) || [],
-    },
-  ];
+  const maxItemsPerPage = 4;
+  const profileChunks = [];
+  for (let i = 0; i < data.strengths.length; i += maxItemsPerPage) {
+    profileChunks.push(data.strengths.slice(i, i + maxItemsPerPage));
+  }
 
   const chunkCareerData = (data, size) => {
     const chunks = [];
@@ -185,13 +39,37 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
     }
     return chunks;
   };
-  const careerDataChunks = chunkCareerData(data.career_fields, 3);
-  // Function to generate a ref and push to refs array for each section
-  const getComponentRef = (index) => {
-    if (!refArray.current[index]) {
-      refArray.current[index] = React.createRef();
+
+  const chunkData = (array, size) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunks.push(array.slice(i, i + size));
     }
-    return refArray.current[index];
+    return chunks;
+  };
+  const maxFieldsPerPage = 8;
+  const swotChunks = {
+    strengths: chunkData(data.strengths || [], maxFieldsPerPage),
+    weaknesses: chunkData(data.weaknesses || [], maxFieldsPerPage),
+    opportunities: chunkData(
+      data.career_fields?.map((f) => f.opportunities) || [],
+      maxFieldsPerPage
+    ),
+  };
+  const threatChunks = {
+    threats: chunkData(
+      data.career_fields?.map((f) => f.threats) || [],
+      maxFieldsPerPage
+    ),
+  };
+  let currentRefIndex = 0;
+  const careerDataChunks = chunkCareerData(data.career_fields, 2);
+  // Function to generate a ref and push to refs array for each section
+  const getComponentRef = () => {
+    if (!refArray.current[currentRefIndex]) {
+      refArray.current[currentRefIndex] = React.createRef();
+    }
+    return refArray.current[currentRefIndex++];
   };
 
   return (
@@ -206,8 +84,8 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
       >
         {/* Page 1 */}
         <div
-          ref={getComponentRef(0)}
-          className="relative w-[794px] min-h-[1123px] bg-white  overflow-hidden"
+          ref={getComponentRef()}
+          className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white  overflow-hidden"
         >
           {/* Left Red Border */}
           <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500 z-10"></div>
@@ -240,8 +118,8 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
 
         {/* Page 2 */}
         <div
-          ref={getComponentRef(1)}
-          className="relative w-[794px] min-h-[1123px] bg-white  overflow-hidden"
+          ref={getComponentRef()}
+          className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white  overflow-hidden"
         >
           <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
           {/* Content */}
@@ -262,7 +140,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
             </div>
 
             {/* Introduction Text */}
-            <div className="text-gray-800 p-4 text-justify">
+            <div className="text-gray-800 p-4 text-justify text-lg">
               <p className="mb-4">
                 The <strong>SWOT TEST</strong> helps individuals identify what
                 they're good at, areas they can improve, chances they can take
@@ -302,8 +180,8 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
 
         {/* Page 3 */}
         <div
-          ref={getComponentRef(2)}
-          className="relative w-[794px] min-h-[1123px] bg-white  overflow-hidden"
+          ref={getComponentRef()}
+          className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white  overflow-hidden"
         >
           <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
           <div className="p-8 relative z-10">
@@ -322,7 +200,7 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
               <h2 className="text-2xl font-semibold mb-2">
                 {userDetail.name}'s Profile
               </h2>
-              {data.strengths.map((item, index) => (
+              {data.strengths.slice(0, 4).map((item, index) => (
                 <div key={index} className="mb-4 p-2 text-justify">
                   <p className="text-md">{item.profile_description}</p>
                 </div>
@@ -331,17 +209,22 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
             </div>
 
             {/* Career Fields */}
-            <div className="mb-8 ">
-              <h3 className="text-2xl font-bold">Probable Career Fields</h3>
-              <div className="flex flex-col space-y-4 mt-4 text-lg">
-                {data.career_fields.map((field, index) => (
-                  <div key={index} className="flex items-start text-justify">
-                    <span className="mr-2 text-black font-bold">•</span>
-                    <p className="max-w-80 ">{field.field_name}</p>
-                  </div>
-                ))}
+
+            {/* Career Fields */}
+            {data.strengths.length <= 4 && (
+              // Display Career Fields in the same ref if strengths are 4 or fewer
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold">Probable Career Fields</h3>
+                <div className="flex flex-col space-y-4 mt-4 text-lg">
+                  {data.career_fields.map((field, index) => (
+                    <div key={index} className="flex items-start text-justify">
+                      <span className="mr-2 text-black font-bold">•</span>
+                      <p className="max-w-80">{field.field_name}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Background Image */}
@@ -351,6 +234,57 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
             className="absolute bottom-[-98px] right-[-305px]  w-full h-auto opacity-70 scale-150"
           />
         </div>
+
+        {data.strengths.length >= 4 && (
+          <>
+            {profileChunks.map((chunk, index) => (
+              <div
+                key={index}
+                ref={getComponentRef()} // Adjust index for dynamic pages after static pages
+                className="relative w-[794px] min-h-[1123px] bg-white overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
+                <div className="p-8 relative z-10">
+                  <h1 className="text-4xl font-bold mb-8">Profile</h1>
+                  {chunk.map((item, idx) => (
+                    <div key={idx} className="mb-4 text-justify">
+                      <p className="text-lg">{item.profile_description}</p>
+                    </div>
+                  ))}
+                </div>
+                <img
+                  src={mountain}
+                  alt="Background Illustration"
+                  className="absolute bottom-[-98px] right-[-305px] w-full h-auto opacity-70 scale-150"
+                />
+              </div>
+            ))}
+            <div
+              ref={getComponentRef()} // Next page after last profile chunk
+              className="relative w-[794px] min-h-[1123px] bg-white overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
+              <div className="p-8 relative z-10">
+                <h3 className="text-4xl font-bold mb-4">
+                  Probable Career Fields
+                </h3>
+                <div className="flex flex-col space-y-4 text-lg">
+                  {data.career_fields.map((field, index) => (
+                    <div key={index} className="flex items-start text-justify">
+                      <span className="mr-2 text-black font-bold">•</span>
+                      <p className="max-w-80">{field.field_name}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <img
+                src={mountain}
+                alt="Background Illustration"
+                className="absolute bottom-[-98px] right-[-305px]  w-full h-auto opacity-70 scale-150"
+              />
+            </div>
+          </>
+        )}
 
         {/* Probable Career Choices Pages */}
         {/* <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div> */}
@@ -396,8 +330,8 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
         {careerDataChunks.map((chunk, chunkIndex) => (
           <div
             key={chunkIndex}
-            ref={getComponentRef(chunkIndex + 3)}
-            className="relative w-[794px] min-h-[1123px] bg-white overflow-hidden"
+            ref={getComponentRef()}
+            className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white overflow-hidden flex"
           >
             {/* Left Red Border */}
             <div className="absolute top-0 bottom-0 left-0 w-[10px] bg-red-500"></div>
@@ -407,36 +341,38 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
               <h1 className="text-4xl font-bold mb-6">
                 Probable Career Choices
               </h1>
-              {chunk.map((career, index) => (
-                <div key={index} className="mb-8 flex-1 text-justify">
-                  <h2 className="text-2xl font-semibold mb-4">
-                    {career.field_name}
-                  </h2>
-                  <p className="text-lg leading-relaxed mb-4">
-                    {career.description}
-                  </p>
-                  <p className="text-lg mb-8">
-                    <strong>Example:</strong>
-                    {career.example2 ? (
-                      <div>
-                        <div className="flex items-start">
-                          <span className="mr-2 text-black font-bold">•</span>
-                          <p>{career.example1}</p>
+              <div className="flex-1">
+                {chunk.map((career, index) => (
+                  <div key={index} className="mb-4 text-justify">
+                    <h2 className="text-2xl font-semibold mb-4">
+                      {career.field_name}
+                    </h2>
+                    <p className="text-lg leading-relaxed mb-4">
+                      {career.description}
+                    </p>
+                    <p className="text-lg mb-8">
+                      <strong>Example:</strong>
+                      {career.example2 ? (
+                        <div>
+                          <div className="flex items-start">
+                            <span className="mr-2 text-black font-bold">•</span>
+                            <p>{career.example1}</p>
+                          </div>
+                          <div className="flex items-start">
+                            <span className="mr-2 text-black font-bold">•</span>
+                            <p>{career.example2}</p>
+                          </div>
                         </div>
-                        <div className="flex items-start">
-                          <span className="mr-2 text-black font-bold">•</span>
-                          <p>{career.example2}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <p>{career.example1}</p>
-                    )}
-                  </p>
-                </div>
-              ))}
+                      ) : (
+                        <p>{career.example1}</p>
+                      )}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
               {/* Logo positioned at the bottom */}
-              <div className="absolute bottom-8 w-full flex justify-center">
+              <div className=" w-full flex justify-center">
                 <img
                   src={logosmall}
                   alt="AARA Consultancy Logo"
@@ -447,95 +383,107 @@ const PDFTemplate = ({ refArray, userDetail, data }) => {
           </div>
         ))}
 
-        {SWOT.map(({ mainSWOT, Fields }, index) => (
+        {Object.entries(swotChunks).map(([section, chunks]) =>
+          chunks.map((fieldsChunk, chunkIndex) => (
+            <div
+              key={`${section}-${chunkIndex}`}
+              ref={getComponentRef()}
+              className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white overflow-hidden p-8 flex flex-col"
+            >
+              <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-3xl font-bold">
+                  SWOT Analysis <br />
+                </h2>
+              </div>
+              <div className="flex flex-col space-y-3 mt-8 ml-4 flex-1">
+                <h3 className="text-2xl font-semibold text-left">
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </h3>
+                {fieldsChunk.map((field, fieldIndex) => (
+                  <div
+                    key={fieldIndex}
+                    className="flex items-start text-justify leading-normal"
+                  >
+                    <span className="mr-2 text-black font-bold">•</span>
+                    <p className="text-lg text-gray-800">
+                      {section === "strengths" && field.strength
+                        ? `${field.attribute}: ${field.strength}`
+                        : section === "weaknesses" && field.weakness
+                        ? `${field.attribute}: ${field.weakness}`
+                        : section === "opportunities" &&
+                          typeof field === "string"
+                        ? field // Opportunity might be a simple string
+                        : section === "threats" && typeof field === "string"
+                        ? field // Threat might be a simple string
+                        : null}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-center mt-10">
+                <img
+                  src={logosmall}
+                  alt="AARA Consultancy Logo"
+                  className="w-32 h-auto"
+                />
+              </div>
+            </div>
+          ))
+        )}
+
+        {threatChunks.threats.map((threatChunk, chunkIndex) => (
           <div
-            key={index}
-            ref={getComponentRef(index + careerDataChunks.length + 3)}
-            className="relative w-[794px] min-h-[1123px] bg-white overflow-hidden p-8 flex flex-col"
+            key={`threat-${chunkIndex}`}
+            ref={getComponentRef()}
+            className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white overflow-hidden"
           >
-            <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-bold">SWOT Analysis</h2>
-            </div>
-            <h2 className="text-2xl font-bold">{mainSWOT}</h2>
-            <div className="flex flex-col space-y-3 mt-4 ml-4 flex-1">
-              {Fields.map((field, fieldIndex) => (
-                <div key={fieldIndex} className="flex items-start text-justify">
-                  <span className="mr-2 text-black font-bold">•</span>
-                  <p>
-                    {mainSWOT === "Strengths" || mainSWOT === "Weaknesses" ? (
-                      <>
-                        <strong>{field.attribute}:</strong>{" "}
-                        {mainSWOT === "Strengths"
-                          ? field.strength
-                          : field.weakness}
-                      </>
-                    ) : mainSWOT === "Opportunities" ? (
-                      field // Directly render the opportunity string for "Opportunities"
-                    ) : null}
-                  </p>
+            <div className="p-8 text-gray-800 relative w-full h-full bg-white overflow-hidden">
+              {/* Left Red Border */}
+              <div className="absolute top-0 bottom-0 left-0 w-[10px] bg-red-500 z-[100]"></div>
+
+              {/* Header with Title and Logo */}
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-3xl font-bold">SWOT Analysis</h2>
+                <img
+                  src={logosmall}
+                  alt="AARA Consultancy Logo"
+                  className="w-32 h-auto"
+                />
+              </div>
+
+              {/* Threat Section */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold text-left">Threat</h3>
+                <div className="flex flex-col space-y-4 mt-4 text-lg ml-4 text-left">
+                  {threatChunk.map((threat, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start leading-normal text-justify"
+                    >
+                      <span className="mr-2 text-black font-bold">•</span>
+                      <p>{threat}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div className="flex justify-center mt-10">
-              <img
-                src={logosmall}
-                alt="AARA Consultancy Logo"
-                className="w-32 h-auto"
-              />
+              </div>
+
+              {/* Illustration positioned at the bottom */}
+              <div className="absolute bottom-0 left-0 w-full flex justify-center">
+                <img
+                  src={threat}
+                  alt="Illustration of SWOT Analysis"
+                  className="w-full h-auto"
+                />
+              </div>
             </div>
           </div>
         ))}
 
-        <div
-          className="relative w-[794px] min-h-[1123px] bg-white overflow-hidden"
-          ref={getComponentRef(careerDataChunks.length + SWOT.length + 3)}
-        >
-          <div className="p-8 text-gray-800 relative w-full h-full bg-white overflow-hidden">
-            {/* Left Red Border */}
-            <div className="absolute top-0 bottom-0 left-0 w-[10px] bg-red-500 z-[100]"></div>
-
-            {/* Header with Title and Logo */}
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-bold">SWOT Analysis</h2>
-              <img
-                src={logosmall}
-                alt="AARA Consultancy Logo"
-                className="w-32 h-auto"
-              />
-            </div>
-
-            {/* Threat Section */}
-            <div className="mb-8">
-              <h3 className="text-2xl font-semibold text-left">Threat</h3>
-              <div className="flex flex-col space-y-4 mt-4 text-lg ml-4 text-left">
-                {data.career_fields.map((field, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start leading-normal text-justify"
-                  >
-                    <span className="mr-2 text-black font-bold">•</span>
-                    <p>{field.threats}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Illustration positioned at the bottom */}
-            <div className="absolute bottom-0 left-0 w-full flex justify-center">
-              <img
-                src={threat}
-                alt="Illustration of SWOT Analysis"
-                className="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Page 5 */}
         <div
-          className="relative w-[794px] min-h-[1123px] bg-white  overflow-hidden"
-          ref={getComponentRef(careerDataChunks.length + SWOT.length + 4)}
+          className="relative w-[794px] min-h-[1123px] max-h-[1123px] bg-white  overflow-hidden"
+          ref={getComponentRef()}
         >
           <div className="text-gray-800 p-2 text-center relative w-full h-full bg-white  overflow-hidden">
             <div className="absolute top-0 left-0 h-full w-[10px] bg-red-500"></div>

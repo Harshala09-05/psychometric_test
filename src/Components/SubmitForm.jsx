@@ -23,6 +23,7 @@ function SubmitForm() {
     email: "",
     alt_email: "",
   });
+  // const [userId, setUserId] = useState(0);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false); // Loading state
 
@@ -102,7 +103,7 @@ function SubmitForm() {
 
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/swot/submitresponses/`,
+          `${process.env.REACT_APP_BASE_URL}/swot/submitresponses/`,
           data
         );
         if (response.data.result) {
@@ -110,15 +111,16 @@ function SubmitForm() {
           setShowPDF(true);
         }
         const pdfBlob = await downloadPDF(); // Get the PDF blob
-        await sendPdf(pdfBlob); // Send the PDF blob to the new API
+        await sendPdf(pdfBlob, response.data.student_detail.id); // Send the PDF blob to the new API
         toast.success("Response submitted successfully");
       } catch (error) {
-        toast.error("Failed to submit response. Please try again.");
-        console.error("Error submitting form:", error);
+        toast.error(`Failed to submit response :${error.message}`);
       } finally {
         setLoading(false); // Stop loading
+        navigate('/thankyou')
       }
     }
+    // downloadPDF();
   };
 
   const downloadPDF = async () => {
@@ -130,39 +132,43 @@ function SubmitForm() {
     const pdf = new jsPDF("p", "mm", "a4", true);
     for (let i = 0; i < componentRefs.current.length; i++) {
       const componentRef = componentRefs.current[i];
-      const canvas = await html2canvas(componentRef.current, { scale: 1 });
-      const imageData = canvas.toDataURL("image/jpeg"); // use JPEG format and adjust quality
+      const canvas = await html2canvas(componentRef.current, {
+        scale: 1,
+        width: 794,
+        height: 1123,
+      });
+      const imageData = canvas.toDataURL("image/jpeg", 0.8); // use JPEG format and adjust quality
 
       pdf.addImage(imageData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
       if (i === componentRefs.current.length - 1) {
         pdf.setFont("helvetica", "bold"); // Set font to Helvetica bold
         pdf.setFontSize(12);
         pdf.setTextColor(255, 255, 255); // Set color to white (RGB for white)
-        pdf.textWithLink("Book your 1-1 Counseling", 78, 93, {
+        pdf.textWithLink("Book your 1-1 Counseling", 78, 126, {
           url: "https://aaraconsultancy.com/one-on-one-counseling/",
         });
         pdf.setFont("helvetica", "normal"); // Set font back to normal
         pdf.setFontSize(12);
         pdf.setTextColor(0, 0, 0); // Set color back to black
-        pdf.textWithLink("+91 8108 745 275", 17, 154, {
+        pdf.textWithLink("+91 8108 745 275", 17, 208, {
           url: "tel:+918108745275",
         });
         // Place website and email links near the contact information
-        pdf.textWithLink("info@aaraconsultancy.com", 17, 165, {
+        pdf.textWithLink("info@aaraconsultancy.com", 17, 222, {
           url: "mailto:info@aaraconsultancy.com",
         });
-        pdf.textWithLink("www.aaraconsultancy.com", 17, 176, {
+        pdf.textWithLink("www.aaraconsultancy.com", 17, 238, {
           url: "https://www.aaraconsultancy.com",
         });
         pdf.setFont("helvetica", "bold");
-        pdf.textWithLink("Vidyavihar:", 16, 111, {
+        pdf.textWithLink("Vidyavihar:", 16, 150, {
           url: "https://www.google.com/search?sca_esv=588668658&rlz=1C1YTUH_enIN1058IN1059&sxsrf=AM9HkKn-VsXce-kL4pCxnEtDHMIxKTQWJA:1701937726300&q=Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai&ludocid=13256448219233310615&lsig=AB86z5VG0zrTuOFFKhDWbLFzKqot&kgs=20992ba1dc59403c&shndl=-1&shem=lsp&source=sh/x/kp/local/m1/1",
         });
         pdf.setFont("helvetica", "normal");
         pdf.textWithLink(
           "608, 6th Floor, Surya House, Road Number 7, opposite R.N Gandhi High School, near Vidyavihar",
           16,
-          117,
+          155,
           {
             url: "https://www.google.com/search?sca_esv=588668658&rlz=1C1YTUH_enIN1058IN1059&sxsrf=AM9HkKn-VsXce-kL4pCxnEtDHMIxKTQWJA:1701937726300&q=Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai&ludocid=13256448219233310615&lsig=AB86z5VG0zrTuOFFKhDWbLFzKqot&kgs=20992ba1dc59403c&shndl=-1&shem=lsp&source=sh/x/kp/local/m1/1",
           }
@@ -170,25 +176,25 @@ function SubmitForm() {
         pdf.textWithLink(
           "station (east), Rajawadi Colony, Mumbai, Maharashtra 400077",
           16,
-          122,
+          160,
           {
             url: "https://www.google.com/search?sca_esv=588668658&rlz=1C1YTUH_enIN1058IN1059&sxsrf=AM9HkKn-VsXce-kL4pCxnEtDHMIxKTQWJA:1701937726300&q=Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai&ludocid=13256448219233310615&lsig=AB86z5VG0zrTuOFFKhDWbLFzKqot&kgs=20992ba1dc59403c&shndl=-1&shem=lsp&source=sh/x/kp/local/m1/1",
           }
         );
         pdf.setFont("helvetica", "bold");
-        pdf.textWithLink("Andheri:", 16, 128, {
+        pdf.textWithLink("Andheri:", 16, 173, {
           url: "https://www.google.com/maps/place/Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai+(Andheri)/@19.1276504,72.8313149,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b7a61fd49f59:0xdd4c127cfc050b59!8m2!3d19.1276504!4d72.8313149!16s%2Fg%2F11stvs32_3?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D",
         });
         pdf.setFont("helvetica", "normal");
         pdf.textWithLink(
           "DN Nagar Metro Station, 1308 Lotus Link Square, Besides, JP Rd, D.N.Nagar, Andheri West, Mumbai,",
           16,
-          134,
+          178,
           {
             url: "https://www.google.com/maps/place/Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai+(Andheri)/@19.1276504,72.8313149,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b7a61fd49f59:0xdd4c127cfc050b59!8m2!3d19.1276504!4d72.8313149!16s%2Fg%2F11stvs32_3?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D",
           }
         );
-        pdf.textWithLink("Maharashtra 400053", 16, 140, {
+        pdf.textWithLink("Maharashtra 400053", 16, 183, {
           url: "https://www.google.com/maps/place/Aara+Education+Consultancy+-+Study+Abroad+and+Career+Counsellor+in+Mumbai+(Andheri)/@19.1276504,72.8313149,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b7a61fd49f59:0xdd4c127cfc050b59!8m2!3d19.1276504!4d72.8313149!16s%2Fg%2F11stvs32_3?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D",
         });
       }
@@ -203,7 +209,7 @@ function SubmitForm() {
     return pdf.output("blob");
   };
 
-  const sendPdf = async (pdfBlob) => {
+  const sendPdf = async (pdfBlob, id) => {
     const data = new FormData();
     const uniqueId = new Date().toISOString().replace(/[-:.TZ]/g, "");
     data.append(
@@ -211,14 +217,17 @@ function SubmitForm() {
       pdfBlob,
       `SWOT_Test_Report_${formData.name.replace(" ", "_")}_${uniqueId}.pdf`
     );
-    data.append("student_email", formData.email);
+    data.append("student_id", id);
     try {
-      console.log(data);
-      await axios.post("http://127.0.0.1:8000/swot/dwonloadreport/", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/swot/dwonloadreport/`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
     } catch (error) {
       toast.error("Failed to send PDF. Please try again.");
       console.error("Error sending PDF:", error);
